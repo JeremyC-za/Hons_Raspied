@@ -5,6 +5,9 @@ import os
 from PIL import Image
 
 
+def clearPins():
+    GPIO.cleanup()
+
 def IR_DetectObstacle():
     GPIO.setmode(GPIO.BOARD)
     inPin = 3
@@ -97,16 +100,140 @@ def CAM_DetectColour(fileName):
 
 
 
+def US_GetDistance():
+    GPIO.setmode(GPIO.BOARD)
+    TRIG = 16
+    ECHO = 18
+
+    loopLimit = 1000
+    loop = 0
+
+    print("US Sensor Measuring Distance")
+
+    GPIO.setup(TRIG, GPIO.OUT)
+    GPIO.setup(ECHO, GPIO.IN)
+
+    GPIO.output(TRIG, False)
+    print("Waiting for sensor")
+    time.sleep(2)
+
+    GPIO.output(TRIG, True)
+    time.sleep(0.00001)
+    GPIO.output(TRIG,False)
+
+    pulse_start = 0
+    pulse_end = 0
+
+    while GPIO.input(ECHO) == 0:
+        pulse_start = time.time()
+        loop += 1
+        if loop > loopLimit:
+            print "loop exceeded"
+            break
+
+    loop = 0
+
+    while GPIO.input(ECHO) == 1:
+        pulse_end = time.time()
+        loop += 1
+        if loop > loopLimit:
+            print "loop exceeded"
+            break
+
+    pulse_duration = pulse_end - pulse_start
+
+    distance = pulse_duration *17000
+
+    distance = round(distance, 2)
+
+    print ("Distance = " + str(distance) + "cm")
+
+    GPIO.cleanup()
+
+    return distance
 
 
 
+def LED_RedOn():
+    redPin = 33
+    colourOn(redPin)
 
 
 
+def LED_RedOff():
+    redPin = 33
+    colourOff(redPin)
+    
+
+
+def LED_RedFlash():
+    redPin = 33
+    colourFlash(redPin)
+
+
+def LED_BlueOn():
+    bluePin = 35
+    colourOn(bluePin)
 
 
 
+def LED_BlueOff():
+    bluePin = 35
+    colourOff(bluePin)
+    
 
 
+def LED_BlueFlash():
+    bluePin = 35
+    colourFlash(bluePin)
+
+
+def LED_YellowOn():
+    yellowPin = 37
+    colourOn(yellowPin)
+
+
+
+def LED_YellowOff():
+    yellowPin = 37
+    colourOff(yellowPin)
+    
+
+
+def LED_YellowFlash():
+    yellowPin = 37
+    colourFlash(yellowPin)
+    
+
+def colourOn(pinNumber):
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setwarnings(False)
+    colourPin = pinNumber
+    GPIO.setup(colourPin, GPIO.OUT)
+
+    GPIO.output(colourPin, True)
+    time.sleep(0.11)
+
+
+def colourOff(pinNumber):
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setwarnings(False)
+    colourPin = pinNumber
+    GPIO.setup(colourPin, GPIO.OUT)
+
+    GPIO.output(colourPin, False)
+    time.sleep(0.11)
+
+def colourFlash(pinNumber):
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setwarnings(False)
+    colourPin = pinNumber
+    GPIO.setup(pinNumber, GPIO.OUT)
+
+    GPIO.output(pinNumber, True)
+
+    time.sleep(1)
+
+    GPIO.output(pinNumber, False)
 
     
