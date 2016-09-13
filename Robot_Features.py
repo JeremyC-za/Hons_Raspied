@@ -14,7 +14,7 @@ def IR_DetectObstacle():
     GPIO.setup(inPin, GPIO.IN)
 
     if (GPIO.input(inPin) == 1):
-        print("No obstacles detected")
+        print("No obstacle detected")
         return False
 
     else:
@@ -55,8 +55,6 @@ def CAM_TakePhoto(fileName, rotation = 0, sleepTime = 2):
     camera.capture(filePath)
     camera.stop_preview()
     print("Photo taken")
-
-    return filePath
     
 
 def CAM_DetectColour(fileName):
@@ -76,7 +74,7 @@ def CAM_DetectColour(fileName):
         avgG = 0
         avgB = 0
 
-        for i in range (0, x):          # maybe optimise to look at 100-1000 random pixels, rather than all of them
+        for i in range (0, x):         
             for j in range (0, y):
                 avgR = avgR + pixels[i, j][0]
                 avgG = avgG + pixels[i, j][1]
@@ -102,55 +100,41 @@ def CAM_DetectColour(fileName):
 
 def US_GetDistance():
     GPIO.setmode(GPIO.BOARD)
-    TRIG = 16
-    ECHO = 18
+    GPIO.setwarnings(False)
+    TRIGGER = 16
+    ECHO    = 18
 
-    loopLimit = 1000
-    loop = 0
+    GPIO.setup(TRIGGER,GPIO.OUT) 
+    GPIO.setup(ECHO,GPIO.IN)     
 
-    print("US Sensor Measuring Distance")
+    GPIO.output(TRIGGER, False)
+    time.sleep(1)
 
-    GPIO.setup(TRIG, GPIO.OUT)
-    GPIO.setup(ECHO, GPIO.IN)
+    distances = 0
+    for i in range (0,3):
+        GPIO.output(TRIGGER, True)
+        time.sleep(0.00001)
+        GPIO.output(TRIGGER, False)
+        start = time.time()
+      
+        while GPIO.input(ECHO)==0:
+          start = time.time()
 
-    GPIO.output(TRIG, False)
-    print("Waiting for sensor")
-    time.sleep(2)
+        while GPIO.input(ECHO)==1:
+          stop = time.time()
 
-    GPIO.output(TRIG, True)
-    time.sleep(0.00001)
-    GPIO.output(TRIG,False)
+        elapsed = stop-start
+        distance = (elapsed * 34300)/2
 
-    pulse_start = 0
-    pulse_end = 0
+        distances = distances + distance
 
-    while GPIO.input(ECHO) == 0:
-        pulse_start = time.time()
-        loop += 1
-        if loop > loopLimit:
-            print "loop exceeded"
-            break
+        time.sleep(0.1)
 
-    loop = 0
-
-    while GPIO.input(ECHO) == 1:
-        pulse_end = time.time()
-        loop += 1
-        if loop > loopLimit:
-            print "loop exceeded"
-            break
-
-    pulse_duration = pulse_end - pulse_start
-
-    distance = pulse_duration *17000
-
-    distance = round(distance, 2)
-
-    print ("Distance = " + str(distance) + "cm")
+    distances = distances/3
 
     GPIO.cleanup()
 
-    return distance
+    return round(distances,2)
 
 
 

@@ -19,7 +19,7 @@ def main():
    # Features.CAM_DetectColour("green1")
     #Features.CAM_DetectColour("blue1")
 
-    Features.US_GetDistance()
+    print(Features.US_GetDistance())
 
 #    temp = input("Enter 1 for on, 2 for off: ")
 
