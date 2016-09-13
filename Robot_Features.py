@@ -3,10 +3,10 @@ import time
 from picamera import PiCamera
 import os
 from PIL import Image
+import Feature_Helper as helper
 
 
-def clearPins():
-    GPIO.cleanup()
+
 
 def IR_DetectObstacle():
     GPIO.setmode(GPIO.BOARD)
@@ -156,84 +156,53 @@ def US_GetDistance():
 
 def LED_RedOn():
     redPin = 33
-    colourOn(redPin)
+    helper.colourOn(redPin)
 
 
 
 def LED_RedOff():
     redPin = 33
-    colourOff(redPin)
+    helper.colourOff(redPin)
     
 
 
 def LED_RedFlash():
     redPin = 33
-    colourFlash(redPin)
+    helper.colourFlash(redPin)
 
 
 def LED_BlueOn():
     bluePin = 35
-    colourOn(bluePin)
+    helper.colourOn(bluePin)
 
 
 
 def LED_BlueOff():
     bluePin = 35
-    colourOff(bluePin)
+    helper.colourOff(bluePin)
     
 
 
 def LED_BlueFlash():
     bluePin = 35
-    colourFlash(bluePin)
+    helper.colourFlash(bluePin)
 
 
 def LED_YellowOn():
     yellowPin = 37
-    colourOn(yellowPin)
+    helper.colourOn(yellowPin)
 
 
 
 def LED_YellowOff():
     yellowPin = 37
-    colourOff(yellowPin)
+    helper.colourOff(yellowPin)
     
 
 
 def LED_YellowFlash():
     yellowPin = 37
-    colourFlash(yellowPin)
+    helper.colourFlash(yellowPin)
     
-
-def colourOn(pinNumber):
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setwarnings(False)
-    colourPin = pinNumber
-    GPIO.setup(colourPin, GPIO.OUT)
-
-    GPIO.output(colourPin, True)
-    time.sleep(0.11)
-
-
-def colourOff(pinNumber):
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setwarnings(False)
-    colourPin = pinNumber
-    GPIO.setup(colourPin, GPIO.OUT)
-
-    GPIO.output(colourPin, False)
-    time.sleep(0.11)
-
-def colourFlash(pinNumber):
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setwarnings(False)
-    colourPin = pinNumber
-    GPIO.setup(pinNumber, GPIO.OUT)
-
-    GPIO.output(pinNumber, True)
-
-    time.sleep(1)
-
-    GPIO.output(pinNumber, False)
 
     
