@@ -4,7 +4,8 @@ from Ultrasonic import *
 from Camera import *
 import time
 
-
+#Author: Jeremy Coupland
+#Last updated: 2016/09/15
 
 def main():
     #lights = LED()

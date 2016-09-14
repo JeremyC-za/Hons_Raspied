@@ -3,6 +3,9 @@ from PIL import Image
 import time
 import os
 
+#Author: Jeremy Coupland
+#Last updated: 2016/09/15
+
 class Camera:
 
     def __init__(self):

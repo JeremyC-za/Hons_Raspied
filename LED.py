@@ -1,6 +1,9 @@
 import RPi.GPIO as GPIO
 import time
 
+#Author: Jeremy Coupland
+#Last updated: 2016/09/15
+
 class LED:
 
     def __init__(self):
