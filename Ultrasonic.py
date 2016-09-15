@@ -7,8 +7,8 @@ import time
 class Ultrasonic:
 
     def __init__(self):
-        self.__TRIG = 16
-        self.__ECHO = 18
+        self.__TRIG = 38
+        self.__ECHO = 36
 
     def __del__(self):
         GPIO.setwarnings(False)

@@ -10,7 +10,8 @@ class Camera:
 
     def __init__(self):
         self.__sleepTime = 2
-        self.__filePath = '/home/pi/RASPIED/Camera_Images/'
+        self.__filePath = '/home/pi/Hons_Raspied/Camera_Images/'
+	self.__camera = PiCamera()
 
 
     def take_photo(self, fileName):
@@ -22,12 +23,12 @@ class Camera:
             os.remove(path)
 
         
-        camera = PiCamera()
-        camera.resolution = (300, 300)  #No need for high resolution images, 300x300 will do
-        camera.start_preview()  #Open camera shutters
+        #camera = PiCamera()
+        self.__camera.resolution = (300, 300)  #No need for high resolution images, 300x300 will do
+        self.__camera.start_preview()  #Open camera shutters
         time.sleep(self.__sleepTime)   #Give camera time to focus
-        camera.capture(path)    #Take the photo
-        camera.stop_preview()   #Close shutters
+        self.__camera.capture(path)    #Take the photo
+        self.__camera.stop_preview()   #Close shutters
         print("Photo taken")    
 
 
@@ -61,7 +62,8 @@ class Camera:
             avgG = avgG / totalPixels
             avgB = avgB / totalPixels
 
-            
+	    im.close()            
+
             if (avgR > avgB and avgR > avgG):   #If image is mostly red, classify as red
                 return "red"
 
