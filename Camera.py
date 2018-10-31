@@ -78,5 +78,5 @@ class Camera:
                 return "unknown"
 
             # Maybe not the most accurate colour predictions, but should get the job done
-            #Should give fairly reliable predictions in uncertain lighting conditions
+            # Should give fairly reliable predictions in uncertain lighting conditions
             #Will update if incorrect predictions occur frequently
